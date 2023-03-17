@@ -28,6 +28,8 @@ abstract class Model
     $res = $query->fetchAll();
 
     if (!isset($res)) {
+      http_response_code(404);
+
       echo json_encode([
         'status' => false,
         'message' => "There are no columns in the table $table"

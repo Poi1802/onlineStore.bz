@@ -5,7 +5,8 @@
       "Models\\": "Models\\",
       "database\\": "database\\",
       "traits\\": "traits\\",
-      "controllers\\": "controllers\\"
+      "controllers\\": "controllers\\",
+      "router\\": "router\\"
     }
   }
 }
