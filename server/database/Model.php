@@ -16,7 +16,7 @@ abstract class Model
     /**
      * return $column, $param, $pdo
      */
-    $startArr = (new static )->start($params, $columns);
+    $startArr = (new static )->startGet($params, $columns);
     extract($startArr);
 
     $table = (new static )->table;
@@ -44,7 +44,7 @@ abstract class Model
     /**
      * return $column, $param, $pdo
      */
-    $startArr = (new static )->start([], $columns);
+    $startArr = (new static )->startGet([], $columns);
     extract($startArr);
 
     $table = (new static )->table;
@@ -65,5 +65,64 @@ abstract class Model
     } else {
       return new Builder($res);
     }
+  }
+
+  public static function create(array $data)
+  {
+    /**
+     * return $structure, $values, $pdo
+     */
+    extract((new static )->startPost($data));
+
+    $table = (new static )->table;
+
+    $sql = "INSERT INTO $table($structure) VALUES($values)";
+
+    $query = $pdo->prepare($sql);
+    $query->execute($data);
+
+    echo json_encode([
+      'status' => true,
+      'message' => "created in $table with id = " . $pdo->lastInsertId(),
+      'created_id' => $pdo->lastInsertId()
+    ]);
+  }
+
+  public static function update(int $id, array $data)
+  {
+    /**
+     * return $updates, $pdo
+     */
+    extract((new static )->startPatch($data));
+
+    $table = (new static )->table;
+
+    $sql = "UPDATE $table SET $updates WHERE id=$id";
+
+    $query = $pdo->prepare($sql);
+    $query->execute($data);
+
+    echo json_encode([
+      'status' => true,
+      'message' => "updated in $table with id = " . $id,
+      'updated_id' => $id
+    ]);
+  }
+
+  public static function delete(int $id)
+  {
+    $pdo = (new Connection())->getObj();
+
+    $table = (new static )->table;
+
+    $sql = "DELETE FROM $table WHERE id=$id";
+
+    $pdo->prepare($sql)->execute();
+
+    echo json_encode([
+      'status' => true,
+      'message' => "Object in $table with id=$id deleted",
+      'deleted_id' => $id
+    ]);
   }
 }

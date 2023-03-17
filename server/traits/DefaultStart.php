@@ -9,7 +9,7 @@ use database\Connection;
  */
 trait DefaultStart
 {
-  protected function start($params = [], $columns = ['*'])
+  protected function startGet($params = [], $columns = ['*'])
   {
     $pdo = (new Connection())->getObj();
     $column = '';
@@ -39,5 +39,42 @@ trait DefaultStart
     }
 
     return compact(['pdo', 'column', 'param']);
+  }
+
+  protected function startPost(array $data)
+  {
+    $pdo = (new Connection())->getObj();
+
+    $structure = '';
+    $values = '';
+
+    foreach ($data as $key => $value) {
+      if ($structure === '' && $values === '') {
+        $structure .= $key;
+        $values .= ":$key";
+      } else {
+        $structure .= ", $key";
+        $values .= ", :$key";
+      }
+    }
+
+    return compact(['pdo', 'structure', 'values']);
+  }
+
+  protected function startPatch(array $data)
+  {
+    $pdo = (new Connection())->getObj();
+
+    $updates = '';
+
+    foreach ($data as $key => $val) {
+      if ($updates === '') {
+        $updates .= "$key = :$key";
+      } else {
+        $updates .= ", $key = :$key";
+      }
+    }
+
+    return compact(['pdo', 'updates']);
   }
 }
