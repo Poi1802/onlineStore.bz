@@ -6,16 +6,14 @@ use Models\User;
 
 class UserController
 {
-
-  public $x = 123;
   public function getUsers()
   {
-    echo User::all()->toJson();
+    echo User::all($_GET)->toJson();
   }
 
   public function getUser()
   {
-    echo User::find($_GET['id'])?->toJson();
+    echo User::find($_GET)?->toJson();
   }
 
   public function createUser()

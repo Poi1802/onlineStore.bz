@@ -11,7 +11,7 @@ class Route
   public static function get(string $path, array $controller)
   {
     if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
-      return 'GET method pls!';
+      return;
     }
     if ($path !== $_SERVER['REDIRECT_URL']) {
       return;
@@ -27,7 +27,7 @@ class Route
   public static function post(string $path, array $controller)
   {
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-      return 'POST method pls!';
+      return;
     }
     if ($path !== $_SERVER['REDIRECT_URL']) {
       return;
@@ -43,7 +43,7 @@ class Route
   public static function patch(string $path, array $controller)
   {
     if ($_SERVER['REQUEST_METHOD'] !== 'PATCH') {
-      return 'POST method pls!';
+      return;
     }
     if ($path !== $_SERVER['REDIRECT_URL']) {
       return;
@@ -59,7 +59,7 @@ class Route
   public static function delete(string $path, array $controller)
   {
     if ($_SERVER['REQUEST_METHOD'] !== 'DELETE') {
-      return 'POST method pls!';
+      return;
     }
     if ($path !== $_SERVER['REDIRECT_URL']) {
       return;
