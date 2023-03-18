@@ -39,12 +39,12 @@ abstract class Model
     }
   }
 
-  public static function find($id, $columns = ['*'])
+  public static function find($id, $params = [], $columns = ['*'])
   {
     /**
      * return $column, $param, $pdo
      */
-    $startArr = (new static )->startGet([], $columns);
+    $startArr = (new static )->startGet($params, $columns);
     extract($startArr);
 
     $table = (new static )->table;
