@@ -13,7 +13,7 @@ class ColorController
 
   public function getColor()
   {
-    echo Color::find($_GET['id'])?->toJson();
+    echo Color::find($_GET)?->toJson();
   }
 
   public function createColor()

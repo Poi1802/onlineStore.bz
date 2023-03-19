@@ -13,7 +13,7 @@ class UserController
 
   public function getUser()
   {
-    echo User::find($_GET['id'])?->toJson();
+    echo User::find($_GET)?->toJson();
   }
 
   public function createUser()

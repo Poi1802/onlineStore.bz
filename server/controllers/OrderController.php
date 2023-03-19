@@ -13,7 +13,7 @@ class OrderController
 
   public function getOrder()
   {
-    echo Order::find($_GET['id'])?->toJson();
+    echo Order::find($_GET)?->toJson();
   }
 
   public function createOrder()

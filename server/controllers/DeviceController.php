@@ -13,7 +13,7 @@ class DeviceController
 
   public function getDevice()
   {
-    echo Device::find($_GET['id'])?->toJson();
+    echo Device::find($_GET)?->toJson();
   }
 
   public function createDevice()

@@ -39,7 +39,7 @@ abstract class Model
     }
   }
 
-  public static function find($id, $params = [], $columns = ['*'])
+  public static function find($params = [], $columns = ['*'])
   {
     /**
      * return $column, $param, $pdo
@@ -49,18 +49,20 @@ abstract class Model
 
     $table = (new static )->table;
 
-    $sql = "SELECT $column FROM $table WHERE id=$id";
+    $sql = "SELECT $column FROM $table $param";
 
     $query = $pdo->prepare($sql);
     $query->execute();
     $res = $query->fetch();
+
+
 
     if (!$res) {
       http_response_code(404);
 
       echo json_encode([
         'status' => false,
-        'message' => "There are no column with id=$id in the table $table"
+        'message' => "There are no column in the table $table"
       ]);
     } else {
       return new Builder($res);

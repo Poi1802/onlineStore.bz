@@ -5,3 +5,8 @@
 body {
   font-family: 'JetBrains Mono', monospace;
 }
+
+.disabled {
+  background-color: grey;
+  pointer-events: none;
+}

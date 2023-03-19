@@ -13,7 +13,7 @@ class BrandController
 
   public function getBrand()
   {
-    echo Brand::find($_GET['id'])?->toJson();
+    echo Brand::find($_GET)?->toJson();
   }
 
   public function createBrand()

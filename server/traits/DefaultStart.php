@@ -33,7 +33,7 @@ trait DefaultStart
         if ($param === '') {
           $param .= "WHERE $key=$val ";
         } else {
-          $param .= "AND $key=$val";
+          $param .= "AND $key=$val ";
         }
       }
     }

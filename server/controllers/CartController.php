@@ -13,7 +13,7 @@ class CartController
 
   public function getCart()
   {
-    echo Cart::find($_GET['id'])?->toJson();
+    echo Cart::find($_GET)?->toJson();
   }
 
   public function createCart()

@@ -13,7 +13,7 @@ class TypeController
 
   public function getType()
   {
-    echo Type::find($_GET['id'])?->toJson();
+    echo Type::find($_GET)?->toJson();
   }
 
   public function createType()

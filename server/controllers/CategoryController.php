@@ -13,7 +13,7 @@ class CategoryController
 
   public function getCategory()
   {
-    echo Category::find($_GET['id'])?->toJson();
+    echo Category::find($_GET)?->toJson();
   }
 
   public function createCategory()
