@@ -54,6 +54,8 @@ export const useAuthStore = defineStore('authorization', {
       }
     },
     async createUser() {
+      this.watchError();
+
       if (this.errors.length === 0) {
         let formData = new FormData();
         formData.append('name', this.name);
