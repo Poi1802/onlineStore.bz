@@ -22,10 +22,18 @@
             <i class="fa-sharp fa-solid fa-heart"></i>
           </li>
 
-          <li v-if="login.user" class="nav__list user cursor-pointer">
+          <li
+            @click="$router.push('/profile')"
+            v-if="login.user"
+            class="nav__list user cursor-pointer">
             {{ login.user.name }}
+            <i class="fa-solid fa-arrow-down duration-300"></i>
             <ul class="user__options bg-neutral-900 text-slate-100">
-              <li class="cabinet hover:text-red-400 duration-200">Личный кабинет</li>
+              <li
+                @click="$router.push('/profile')"
+                class="cabinet hover:text-red-400 duration-200">
+                Личный кабинет
+              </li>
               <li @click.stop="clickLogout" class="exit hover:text-red-400 duration-200">
                 Выход
               </li>
@@ -117,6 +125,8 @@ export default {
 .user
   position: relative
   &:hover
+    i
+      transform: translateY(3px)
     .user__options
       display: flex
       flex-direction: column
@@ -126,7 +136,7 @@ export default {
   .user__options
     position: absolute
     top: 56px
-    right: -30px
+    right: -14px
     padding: 10px
     display: none
 </style>

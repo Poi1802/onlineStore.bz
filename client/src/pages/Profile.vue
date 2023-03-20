@@ -1,7 +1,5 @@
 <template>
-  <main>
-    <div class="container"></div>
-  </main>
+  <div>sdfsdf</div>
 </template>
 
 <script>

@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Main from '../pages/Main.vue';
 import About from '../pages/About.vue';
 import Category from '../pages/Category.vue';
-import Registration from '../pages/Registration.vue';
+import Profile from '../pages/Profile.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -24,9 +24,9 @@ const router = createRouter({
       component: Category,
     },
     {
-      path: '/registration',
-      name: 'registration',
-      component: Registration,
+      path: '/profile',
+      name: 'profile',
+      component: Profile,
     },
   ],
 });
