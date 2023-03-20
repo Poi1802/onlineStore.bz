@@ -9,6 +9,7 @@ export const useAuthStore = defineStore('authorization', {
     firstPassword: '',
     secondPassword: '',
     errors: [],
+    isLoading: false,
   }),
   getters: {
     passwordError() {
@@ -22,6 +23,9 @@ export const useAuthStore = defineStore('authorization', {
     },
     lastNameError() {
       return this.errors.includes('last_name');
+    },
+    duplicateError() {
+      return this.errors.includes('duplicate');
     },
   },
   actions: {
@@ -63,23 +67,40 @@ export const useAuthStore = defineStore('authorization', {
         formData.append('email', this.email);
         formData.append('password', this.firstPassword);
 
-        const res = await axios
-          .post('http://onlinestore.bz/server/user/create', formData)
-          .then((res) => res.data);
+        try {
+          this.isLoading = true;
 
-        console.log(res);
+          const duplicate = await axios
+            .get(`http://onlinestore.bz/server/user?email="${this.email}"`)
+            .then((res) => res.data);
+          console.log(duplicate);
+          if (duplicate.email) {
+            this.errors.push('duplicate');
+            return;
+          }
 
-        if (res.status) {
-          this.name = '';
-          this.last_name = '';
-          this.email = '';
-          this.firstPassword = '';
-          this.secondPassword = '';
-        } else {
-          this.errors.push('registr');
+          const res = await axios
+            .post('http://onlinestore.bz/server/user/create', formData)
+            .then((res) => res.data);
+
+          console.log(res);
+
+          if (res.status) {
+            this.name = '';
+            this.last_name = '';
+            this.email = '';
+            this.firstPassword = '';
+            this.secondPassword = '';
+          } else {
+            this.errors.push('registr');
+          }
+
+          return res;
+        } catch (error) {
+          console.log(error);
+        } finally {
+          this.isLoading = false;
         }
-
-        return res;
       }
     },
   },

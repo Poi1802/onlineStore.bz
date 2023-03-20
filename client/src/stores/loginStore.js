@@ -7,6 +7,7 @@ export const useLoginStore = defineStore('login', {
     password: '',
     user: {},
     errors: {},
+    isLoading: false,
   }),
   actions: {
     watchErrors() {
@@ -26,6 +27,7 @@ export const useLoginStore = defineStore('login', {
       this.watchErrors();
 
       if (Object.values(this.errors).length === 0) {
+        this.isLoading = true;
         try {
           this.user = await axios
             .get(
@@ -34,8 +36,12 @@ export const useLoginStore = defineStore('login', {
             .then((res) => res.data);
 
           sessionStorage.setItem('user', JSON.stringify(this.user));
+          return true;
         } catch (error) {
+          console.log(error);
           this.errors.login = 'Неправильный пароль или email';
+        } finally {
+          this.isLoading = false;
         }
       }
     },

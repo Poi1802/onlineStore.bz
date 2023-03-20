@@ -1,6 +1,6 @@
 <template>
   <header class="header bg-neutral-900">
-    <div class="container py-4 text-slate-100 flex justify-between">
+    <div class="container text-slate-100 flex justify-between">
       <router-link to="/" class="logo text-xl cursor-pointer flex items-center gap-3">
         <i class="fa-sharp fa-solid fa-braille text-5xl"></i>
         Бабито
@@ -21,8 +21,15 @@
             </div>
             <i class="fa-sharp fa-solid fa-heart"></i>
           </li>
-          <li v-if="login.user" @click="popup = true" class="nav__list cursor-pointer">
+
+          <li v-if="login.user" class="nav__list user cursor-pointer">
             {{ login.user.name }}
+            <ul class="user__options bg-neutral-900 text-slate-100">
+              <li class="cabinet hover:text-red-400 duration-200">Личный кабинет</li>
+              <li @click.stop="clickLogout" class="exit hover:text-red-400 duration-200">
+                Выход
+              </li>
+            </ul>
           </li>
           <li v-else @click="popup = true" class="nav__list cursor-pointer">
             Вход и регистрация
@@ -67,6 +74,10 @@ export default {
         this.popup = false;
       }
     },
+    clickLogout() {
+      sessionStorage.clear();
+      this.login.user = null;
+    },
   },
 };
 </script>
@@ -74,7 +85,7 @@ export default {
 <style lang="sass" scoped>
 
 .nav__list
-  padding: 8px
+  padding: 16px
   cursor: pointer
   transition: .2s
 
@@ -88,6 +99,7 @@ export default {
     transform: scale(115%)
 .post
   background-color: #009CF0
+  padding: 6px
   border-radius: 6px
   transition: .2s
 
@@ -101,4 +113,20 @@ export default {
 
   .registr__area
     left: 40%
+
+.user
+  position: relative
+  &:hover
+    .user__options
+      display: flex
+      flex-direction: column
+      width: max-content
+      align-items: center
+      gap: 10px
+  .user__options
+    position: absolute
+    top: 56px
+    right: -30px
+    padding: 10px
+    display: none
 </style>
