@@ -20,15 +20,22 @@ class DeviceController
   public function createDevice()
   {
     print_r($_FILES);
+    $uploadedImg = [];
 
     if (!empty($_FILES)) {
-      $file = time() . '_' . $_FILES['img']['name'];
-      $tmp = $_FILES['img']['tmp_name'];
-      $dest = ROOT_PATH . '\\assets\\devices\\' . $file;
+      foreach ($_FILES as $file) {
+        $img = time() . '_' . $file['name'];
+        $tmp = $file['tmp_name'];
+        $dest = ROOT_PATH . '\\assets\\devices\\' . $img;
+        array_push($uploadedImg, $img);
 
-      move_uploaded_file($tmp, $dest);
+        move_uploaded_file($tmp, $dest);
+      }
     }
-    // Device::create($_POST);
+
+    $_POST['img'] = implode(',', $uploadedImg);
+
+    Device::create($_POST);
   }
 
   public function updateDevice()
