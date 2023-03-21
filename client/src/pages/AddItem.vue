@@ -5,7 +5,10 @@
     <div class="addInner mt-6">
       <div class="categories-area">
         <h3 class="text-2xl font-bold">Категория</h3>
-        <ul class="categories-lists border rounded-lg mt-2 w-fit">
+        <MyErrMsg v-if="errors.catId">{{ errors.catId }}</MyErrMsg>
+        <ul
+          :class="{ 'border-red-500': errors.catId }"
+          class="categories-lists border rounded-lg mt-2 w-fit">
           <li
             v-for="(cat, idx) in catStore.categories"
             @click="clickOnCat(cat.id)"
@@ -24,9 +27,14 @@
       <form @submit.prevent="addItem" class="form-area flex flex-col gap-6 my-10">
         <div class="params flex flex-col gap-6">
           <h2 class="params-title text-2xl font-bold">Параметры</h2>
+          <MyErrMsg v-if="errors.nameAds">{{ errors.nameAds }}</MyErrMsg>
           <div class="input-row name-item">
             <label class="w-1/4" for="">Название объявления</label>
-            <input v-model="nameAds" type="text" class="w-1/3" />
+            <input
+              v-model="nameAds"
+              :class="{ error: errors.nameAds }"
+              type="text"
+              class="w-1/3" />
           </div>
           <div class="input-row name-item">
             <label class="w-1/4" for="">Производитель</label>
@@ -39,9 +47,15 @@
         </div>
         <div class="details flex flex-col gap-6">
           <h2 class="details-title text-2xl font-bold">Подробности</h2>
+          <MyErrMsg v-if="errors.description">{{ errors.description }}</MyErrMsg>
           <div class="input-row name-item" style="align-items: start">
             <label class="w-1/4" for="">Описание объявление</label>
-            <textarea v-model="description" type="text" class="w-1/3" rows="6"></textarea>
+            <textarea
+              v-model="description"
+              :class="{ error: errors.description }"
+              type="text"
+              class="w-1/3"
+              rows="6"></textarea>
           </div>
           <div class="input-row name-item">
             <label class="w-1/4" for="">Цена</label>
@@ -86,18 +100,41 @@
         </div>
         <div class="contacts flex flex-col gap-6">
           <h2 class="params-title text-2xl font-bold">Контакты</h2>
-          <div class="input-row name-item">
-            <label class="w-1/4" for="">Почта</label>
-            <input type="email" class="w-1/4" />
-          </div>
+          <MyErrMsg v-if="errors.phone">{{ errors.phone }}</MyErrMsg>
           <div class="input-row name-item">
             <label class="w-1/4" for="">Телефон</label>
-            <input v-model="phone" type="phone" inputmode="numeric" class="w-1/4" />
+            <input
+              v-model="phone"
+              :class="{ error: errors.phone }"
+              type="phone"
+              inputmode="numeric"
+              class="w-1/4" />
           </div>
         </div>
+        <p v-if="success" class="text-green-500 text-2xl w-fit m-auto">
+          Объвление добавлено!
+        </p>
         <button
-          class="border p-3 m-auto mt-6 text-white rounded-lg hover:bg-sky-600 duration-200 bg-sky-500 w-fit"
+          class="border flex p-3 m-auto mt-6 text-white rounded-lg hover:bg-sky-600 duration-200 bg-sky-500 w-fit"
           type="submit">
+          <svg
+            v-if="isLoading"
+            class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24">
+            <circle
+              class="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              stroke-width="4"></circle>
+            <path
+              class="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
           Разместить объявление
         </button>
       </form>
@@ -118,6 +155,8 @@ import { useLoginStore } from '../stores/loginStore';
 export default {
   data: () => ({
     catStore: useCategoriesStore(),
+    isLoading: false,
+    success: false,
     catId: '',
     nameAds: '',
     brand: '',
@@ -127,6 +166,7 @@ export default {
     phone: '',
     files: [],
     images: [],
+    errors: {},
     login: useLoginStore(),
   }),
   mounted() {
@@ -150,7 +190,37 @@ export default {
       };
       reader.readAsDataURL(this.files.at(-1));
     },
-    addItem() {
+    watchErrors() {
+      if (this.nameAds === '' && !this.errors.nameAds) {
+        this.errors.nameAds = 'Название не может быть пустым';
+      } else if (this.nameAds !== '') {
+        delete this.errors.nameAds;
+      }
+      if (this.catId === '' && !this.errors.catId) {
+        this.errors.catId = 'Выберите категорию';
+      } else if (this.catId !== '') {
+        delete this.errors.catId;
+      }
+      if (this.description === '' && !this.errors.description) {
+        this.errors.description = 'Описание не может быть пустым';
+      } else if (this.description !== '') {
+        delete this.errors.description;
+      }
+      if (this.phone === '' && !this.errors.phone) {
+        this.errors.phone = 'Телефон должен быть заполнен';
+      } else if (this.phone !== '') {
+        delete this.errors.phone;
+      }
+    },
+    async addItem() {
+      this.watchErrors();
+      console.log(this.errors);
+      console.log(this.nameAds);
+
+      if (Object.values(this.errors).length > 0) {
+        return;
+      }
+
       let formData = new FormData();
       this.files.forEach((img, idx) => {
         console.log(idx);
@@ -165,12 +235,27 @@ export default {
       formData.append('condit', this.condit);
       formData.append('phone', this.phone);
 
-      axios
+      this.isLoading = true;
+      const res = await axios
         .post('http://onlinestore.bz/server/device/create', formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         })
-        .then((res) => console.log(res))
-        .catch((err) => console.log(err));
+        .then((res) => res.data)
+        .catch((err) => console.log(err))
+        .finally(() => (this.isLoading = false));
+
+      if (res.status === true) {
+        this.catId = '';
+        this.nameAds = '';
+        this.description = '';
+        this.phone = '';
+        this.brand = '';
+        this.condit = '';
+        this.price = '';
+        this.success = true;
+
+        this.$router.push('/profile/ads');
+      }
     },
   },
 };
@@ -193,4 +278,7 @@ export default {
       background-image: url(https://www.avito.st/remote-modules/sx-item-creator/25183259/8bb1db058a01fabddc8a.svg)
       background-repeat: no-repeat
       background-position: center
+
+    .error
+      border-color: red
 </style>

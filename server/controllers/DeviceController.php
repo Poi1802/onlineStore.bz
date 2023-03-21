@@ -19,7 +19,6 @@ class DeviceController
 
   public function createDevice()
   {
-    print_r($_FILES);
     $uploadedImg = [];
 
     if (!empty($_FILES)) {

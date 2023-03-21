@@ -1,3 +1,4 @@
 import MyProfileLink from './MyProfileLink.vue';
+import MyErrMsg from './MyErrMsg.vue';
 
-export default [MyProfileLink];
+export default [MyProfileLink, MyErrMsg];
