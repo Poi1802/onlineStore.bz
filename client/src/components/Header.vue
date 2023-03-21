@@ -27,14 +27,16 @@
             v-if="login.user"
             class="nav__list user cursor-pointer">
             {{ login.user.name }}
-            <i class="fa-solid fa-arrow-down duration-300"></i>
+            <i class="fa-solid fa-arrow-down duration-200"></i>
             <ul class="user__options bg-neutral-900 text-slate-100 z-10">
               <li
                 @click="$router.push('/profile/ads')"
-                class="cabinet hover:text-red-400 duration-200">
+                class="cabinet p-1 hover:text-red-400 duration-200">
                 Личный кабинет
               </li>
-              <li @click.stop="clickLogout" class="exit hover:text-red-400 duration-200">
+              <li
+                @click.stop="clickLogout"
+                class="exit p-1 hover:text-red-400 duration-200 w-full">
                 Выход
               </li>
             </ul>
@@ -42,7 +44,7 @@
           <li v-else @click="popup = true" class="nav__list cursor-pointer">
             Вход и регистрация
           </li>
-          <router-link to="/addItem">
+          <router-link v-if="login.user" to="/addItem">
             <li class="nav__list post">Разместить объявление</li>
           </router-link>
         </ul>
