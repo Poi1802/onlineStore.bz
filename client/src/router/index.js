@@ -24,9 +24,14 @@ const router = createRouter({
       component: Category,
     },
     {
-      path: '/profile',
+      path: '/profile/:list',
       name: 'profile',
       component: Profile,
+    },
+    {
+      path: '/addItem',
+      name: 'addItem',
+      component: () => import('../pages/AddItem.vue'),
     },
   ],
 });

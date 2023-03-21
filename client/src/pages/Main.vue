@@ -1,7 +1,7 @@
 <template>
   <main class="mt-5">
     <div class="container">
-      <content class="block w-2/3">
+      <content class="block w-9/12">
         <div class="categories flex flex-wrap gap-2">
           <CategoryItem
             v-for="category in categoriesStore.categories"

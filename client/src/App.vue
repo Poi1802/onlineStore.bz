@@ -16,7 +16,7 @@ export default {
 <style lang="sass">
 body
   .container
-    max-width: 1316px
+    max-width: 1216px
     padding-inline: 8px
     margin-inline: auto
 </style>

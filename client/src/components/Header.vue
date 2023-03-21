@@ -23,14 +23,14 @@
           </li>
 
           <li
-            @click="$router.push('/profile')"
+            @click="$router.push('/profile/ads')"
             v-if="login.user"
             class="nav__list user cursor-pointer">
             {{ login.user.name }}
             <i class="fa-solid fa-arrow-down duration-300"></i>
-            <ul class="user__options bg-neutral-900 text-slate-100">
+            <ul class="user__options bg-neutral-900 text-slate-100 z-10">
               <li
-                @click="$router.push('/profile')"
+                @click="$router.push('/profile/ads')"
                 class="cabinet hover:text-red-400 duration-200">
                 Личный кабинет
               </li>
@@ -42,7 +42,9 @@
           <li v-else @click="popup = true" class="nav__list cursor-pointer">
             Вход и регистрация
           </li>
-          <li class="nav__list post">Разместить объявление</li>
+          <router-link to="/addItem">
+            <li class="nav__list post">Разместить объявление</li>
+          </router-link>
         </ul>
       </nav>
     </div>
@@ -85,6 +87,7 @@ export default {
     clickLogout() {
       sessionStorage.clear();
       this.login.user = null;
+      this.$router.push('/');
     },
   },
 };
