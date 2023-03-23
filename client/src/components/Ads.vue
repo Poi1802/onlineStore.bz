@@ -30,6 +30,17 @@
       <div class="device price text-xl font-bold">12 990 Р</div>
       <div class="divece-category">Электроника</div>
     </div>
+    <div class="device-manage ml-52">
+      <button
+        @click="$router.push(`/editItem/${device.id}`)"
+        class="edit block mb-4 bg-slate-200 py-1 px-8 rounded-lg hover:bg-slate-300 duration-200">
+        Редактировать
+      </button>
+      <button
+        class="delete ml-6 bg-red-500 py-1 px-8 rounded-lg hover:bg-red-600 duration-200">
+        Удалить
+      </button>
+    </div>
   </div>
 </template>
 

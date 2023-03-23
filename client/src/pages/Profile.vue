@@ -16,7 +16,7 @@
         <hr />
         <ul class="group-lists">
           <MyProfileLink param="ads">Мои объявления</MyProfileLink>
-          <MyProfileLink param="orders">Мои заказы</MyProfileLink>
+          <MyProfileLink param="favorite">Избранное</MyProfileLink>
         </ul>
         <hr />
         <ul class="group-lists">

@@ -33,6 +33,11 @@ const router = createRouter({
       name: 'addItem',
       component: () => import('../pages/AddItem.vue'),
     },
+    {
+      path: '/editItem/:id',
+      name: 'editItem',
+      component: () => import('../pages/EditItem.vue'),
+    },
   ],
 });
 
