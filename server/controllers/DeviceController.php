@@ -32,9 +32,11 @@ class DeviceController
       }
     }
 
-    $_POST['img'] = implode(',', $uploadedImg);
+    if (!empty($_POST)) {
+      $_POST['img'] = implode(',', $uploadedImg);
 
-    Device::create($_POST);
+      Device::create($_POST);
+    }
   }
 
   public function updateDevice()

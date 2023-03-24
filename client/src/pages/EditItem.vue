@@ -1,8 +1,7 @@
 <template>
   <div v-if="isLoading" class="loading absolute flex min-h-screen w-full overflow-hidden">
     <svg
-      v-if="isLoading"
-      class="animate-spin -ml-1 mr-3 h-5 w-5 text-white absolute top-1/3 right-1/2"
+      class="animate-spin -ml-1 mr-3 h-5 w-5 text-white absolute"
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24">
@@ -47,7 +46,7 @@
           </li>
         </ul>
       </div>
-      <form @submit.prevent="addItem" class="form-area flex flex-col gap-6 my-10">
+      <form @submit.prevent="editItem" class="form-area flex flex-col gap-6 my-10">
         <div class="params flex flex-col gap-6">
           <h2 class="params-title text-2xl font-bold">Параметры</h2>
           <MyErrMsg v-if="errors.nameAds">{{ errors.nameAds }}</MyErrMsg>
@@ -158,7 +157,7 @@
               fill="currentColor"
               d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
           </svg>
-          Разместить объявление
+          Изменить объявление
         </button>
       </form>
     </div>
@@ -196,7 +195,7 @@ export default {
   }),
   async mounted() {
     this.catStore.getCategories();
-
+    console.log(Date.now());
     this.initialDevice();
   },
   methods: {
@@ -266,47 +265,35 @@ export default {
         delete this.errors.phone;
       }
     },
-    async addItem() {
+    async editItem() {
       this.watchErrors();
 
       if (Object.values(this.errors).length > 0) {
         return;
       }
 
-      let formData = new FormData();
-      this.files.forEach((img, idx) => {
-        console.log(idx);
-        formData.append(idx, img);
-      });
-      formData.append('name', this.nameAds);
-      formData.append('category_id', this.catId);
-      formData.append('user_id', this.login.user.id);
-      formData.append('price', this.price);
-      formData.append('description', this.description);
-      formData.append('brand', this.brand);
-      formData.append('condit', this.condit);
-      formData.append('phone', this.phone);
+      const editedAds = {
+        category_id: this.catId,
+        name: this.nameAds,
+        price: this.price,
+        description: this.description,
+        brand: this.brand,
+        condit: this.condit,
+        phone: this.phone,
+      };
 
       this.isLoading = true;
       const res = await axios
-        .post('http://onlinestore.bz/server/device/create', formData, {
-          headers: { 'Content-Type': 'multipart/form-data' },
-        })
+        .patch(
+          `http://onlinestore.bz/server/device/update?id=${this.$route.params.id}`,
+          editedAds
+        )
         .then((res) => res.data)
         .catch((err) => console.log(err))
         .finally(() => (this.isLoading = false));
 
       if (res.status === true) {
-        this.catId = '';
-        this.nameAds = '';
-        this.description = '';
-        this.phone = '';
-        this.brand = '';
-        this.condit = '';
-        this.price = '';
-        this.success = true;
-
-        this.$router.push('/profile/ads');
+        // this.$router.push('/profile/ads');
       }
     },
   },
@@ -316,6 +303,11 @@ export default {
 <style lang="sass" scoped>
 .loading
   background-color: rgba(0,0,0,0.5)
+
+  .animate-spin
+    right: 48%
+    top:35%
+
 .form-area
   .input-row
     display: flex
