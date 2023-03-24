@@ -7,10 +7,9 @@ export const useCategoriesStore = defineStore('categoriesStore', {
   }),
   actions: {
     async getCategories() {
-      const data = await axios
+      await axios
         .get('http://onlinestore.bz/server/categories')
-        .then((res) => res.data);
-      this.categories = data;
+        .then((res) => (this.categories = res.data));
     },
   },
 });

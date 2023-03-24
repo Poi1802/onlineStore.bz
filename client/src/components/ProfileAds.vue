@@ -4,7 +4,8 @@
   <div class="devices">
     <Ads
       v-for="device in devicesStore.devices"
-      @clickDelete="update"
+      @clickDelete="filterDevices"
+      :categories="categoriesStore.categories"
       :device="device"
       :key="device.id" />
   </div>
@@ -14,6 +15,7 @@
 import Ads from './Ads.vue';
 import { useLoginStore } from '../stores/loginStore';
 import { useGetDevicesStore } from '../stores/getDevices';
+import { useCategoriesStore } from '../stores/categoriesStore';
 
 export default {
   components: {
@@ -22,12 +24,14 @@ export default {
   data: () => ({
     devicesStore: useGetDevicesStore(),
     login: useLoginStore(),
+    categoriesStore: useCategoriesStore(),
   }),
   mounted() {
-    this.devicesStore.getDevices(this.login.user.id);
+    this.devicesStore.getDevice(this.login.user.id);
+    this.categoriesStore.getCategories();
   },
   methods: {
-    update(id) {
+    filterDevices(id) {
       this.devicesStore.filterDevices(id);
     },
   },

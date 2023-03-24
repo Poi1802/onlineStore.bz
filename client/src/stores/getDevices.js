@@ -6,16 +6,20 @@ export const useGetDevicesStore = defineStore('getDevices', {
     devices: [],
   }),
   actions: {
-    async getDevices(id) {
+    async getDevice(id) {
       await axios
         .get(`http://onlinestore.bz/server/devices?user_id=${id}`)
         .then((res) => {
           this.devices = res.data;
         });
     },
+    async getDevices() {
+      await axios.get(`http://onlinestore.bz/server/devices`).then((res) => {
+        this.devices = res.data;
+      });
+    },
     filterDevices(id) {
       this.devices = this.devices.filter((obj) => obj.id !== id);
-      console.log(this.devices);
     },
   },
 });

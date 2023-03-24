@@ -61,13 +61,13 @@
             <label class="w-1/4" for="">Цена</label>
             <label class="relative" for="">
               <input
-                inputmode="numeric"
+                inputmode="number"
                 v-model="price"
                 data-marker="price"
                 maxlength="10"
-                type="numeric"
+                type="number"
                 class="w-1/2" />
-              <span class="absolute top-2 right-32">₽</span>
+              <span class="absolute top-1 right-32 z-10 p-1 bg-white">₽</span>
             </label>
           </div>
           <div class="input-row name-item">

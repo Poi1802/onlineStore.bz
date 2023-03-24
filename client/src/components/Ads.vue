@@ -27,8 +27,8 @@
           {{ device.name }}
         </div>
       </router-link>
-      <div class="device price text-xl font-bold">12 990 Р</div>
-      <div class="divece-category">Электроника</div>
+      <div class="device price text-xl font-bold">{{ device.price }} ₽</div>
+      <div class="divece-category">{{ category.name }}</div>
     </div>
     <div class="device-manage ml-52">
       <button
@@ -51,13 +51,15 @@ import axios from 'axios';
 export default {
   props: {
     device: Object,
+    categories: Array,
   },
   data: () => ({
     activeImg: 0,
+    category: {},
   }),
   computed: {
     imagesArr() {
-      return this.device.img.split(',');
+      return this.device.img?.split(',');
     },
   },
   methods: {
@@ -71,15 +73,23 @@ export default {
         this.activeImg--;
       }
     },
+    initCategory() {
+      this.category = this.categories.find(
+        (category) => category.id === this.device.category_id
+      );
+    },
     deleteAds() {
       if (confirm(`Хотите удалить объявление ${this.device.name}?`)) {
         this.$emit('clickDelete', this.device.id);
-        axios
-          .delete(
-            `http://onlinestore.bz/server/device/delete?id=${this.device.id}&img=${this.device.img}`
-          )
-          .then((res) => console.log(res));
+        axios.delete(
+          `http://onlinestore.bz/server/device/delete?id=${this.device.id}&img=${this.device.img}`
+        );
       }
+    },
+  },
+  watch: {
+    categories() {
+      this.initCategory();
     },
   },
 };

@@ -10,6 +10,13 @@
             :img="category.img"
             :name="category.name" />
         </div>
+        <div class="devices flex gap-6">
+          <DeviceItem
+            v-for="device in devicesStore.devices"
+            :device="device"
+            :categories="categoriesStore.categories"
+            :key="device.id" />
+        </div>
       </content>
     </div>
   </main>
@@ -17,17 +24,28 @@
 
 <script>
 import CategoryItem from '../components/CategoryItem.vue';
+import DeviceItem from '../components/DeviceItem.vue';
 import { useCategoriesStore } from '../stores/categoriesStore.js';
+import { useGetDevicesStore } from '../stores/getDevices';
 
 export default {
   components: {
     CategoryItem,
+    DeviceItem,
   },
   data: () => ({
     categoriesStore: useCategoriesStore(),
+    devicesStore: useGetDevicesStore(),
   }),
-  mounted() {
-    this.categoriesStore.getCategories();
+  created() {
+    this.queryApi();
+  },
+  methods: {
+    queryApi() {
+      this.categoriesStore.getCategories().then(() => {
+        this.devicesStore.getDevices();
+      });
+    },
   },
 };
 </script>
