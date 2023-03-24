@@ -181,6 +181,7 @@ export default {
     devicesStore: useGetDevicesStore(),
     isLoading: false,
     success: false,
+    device: {},
     catId: '',
     nameAds: '',
     brand: '',
@@ -212,18 +213,18 @@ export default {
         this.isLoading = false;
       }
 
-      const device = this.devicesStore.devices.find(
+      this.device = this.devicesStore.devices.find(
         (obj) => obj.id == this.$route.params.id
       );
 
-      this.brand = device.brand;
-      this.catId = device.category_id;
-      this.condit = device.condit;
-      this.description = device.description;
-      this.nameAds = device.name;
-      this.phone = device.phone;
-      this.price = device.price;
-      device.img.split(',').forEach((img) => {
+      this.brand = this.device.brand;
+      this.catId = this.device.category_id;
+      this.condit = this.device.condit;
+      this.description = this.device.description;
+      this.nameAds = this.device.name;
+      this.phone = this.device.phone;
+      this.price = this.device.price;
+      this.device.img.split(',').forEach((img) => {
         this.images.push({
           src: `http://onlinestore.bz/assets/devices/${img}`,
           name: img,
@@ -236,6 +237,7 @@ export default {
     },
     handlerFile() {
       this.files.push(this.$refs.file.files[0]);
+      console.log(this.files);
 
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -272,6 +274,13 @@ export default {
         return;
       }
 
+      let formData = new FormData();
+      this.files.forEach((img, idx) => {
+        console.log(idx);
+        formData.append(idx, img);
+      });
+      formData.append('img', this.device.img);
+
       const editedAds = {
         category_id: this.catId,
         name: this.nameAds,
@@ -283,6 +292,14 @@ export default {
       };
 
       this.isLoading = true;
+      await axios
+        .post(
+          `http://onlinestore.bz/server/device/addImgToDevice?id=${this.$route.params.id}`,
+          formData
+        )
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
+
       const res = await axios
         .patch(
           `http://onlinestore.bz/server/device/update?id=${this.$route.params.id}`,
@@ -293,7 +310,7 @@ export default {
         .finally(() => (this.isLoading = false));
 
       if (res.status === true) {
-        // this.$router.push('/profile/ads');
+        this.$router.push('/profile/ads');
       }
     },
   },

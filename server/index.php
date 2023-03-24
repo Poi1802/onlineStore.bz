@@ -73,6 +73,7 @@ if ($contr[2] === 'device' || $contr[2] === 'devices') {
   Route::get('/server/device', [DeviceController::class, 'getDevice']);
 
   Route::post('/server/device/create', [DeviceController::class, 'createDevice']);
+  Route::post('/server/device/addImgToDevice', [DeviceController::class, 'addImgToDevice']);
 
   Route::patch('/server/device/update', [DeviceController::class, 'updateDevice']);
 

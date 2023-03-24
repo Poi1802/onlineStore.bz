@@ -37,6 +37,7 @@
         Редактировать
       </button>
       <button
+        @click="deleteAds"
         class="delete ml-6 bg-red-500 py-1 px-8 rounded-lg hover:bg-red-600 duration-200">
         Удалить
       </button>
@@ -45,6 +46,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   props: {
     device: Object,
@@ -66,6 +69,16 @@ export default {
     prevImg() {
       if (this.activeImg !== 0) {
         this.activeImg--;
+      }
+    },
+    deleteAds() {
+      if (confirm(`Хотите удалить объявление ${this.device.name}?`)) {
+        this.$emit('clickDelete', this.device.id);
+        axios
+          .delete(
+            `http://onlinestore.bz/server/device/delete?id=${this.device.id}&img=${this.device.img}`
+          )
+          .then((res) => console.log(res));
       }
     },
   },

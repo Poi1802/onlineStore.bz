@@ -39,6 +39,26 @@ class DeviceController
     }
   }
 
+  public function addImgToDevice()
+  {
+    print_r(explode(',', $_POST['img']));
+    print_r($_FILES);
+    if (!empty($_FILES)) {
+      $uploadedImg = isset($_POST['img']) ? explode(',', $_POST['img']) : [];
+
+      foreach ($_FILES as $file) {
+        $img = time() . '_' . $file['name'];
+        $tmp = $file['tmp_name'];
+        $dest = ROOT_PATH . '\\assets\\devices\\' . $img;
+        array_push($uploadedImg, $img);
+
+        move_uploaded_file($tmp, $dest);
+      }
+
+      Device::update($_GET['id'], ['img' => implode(',', $uploadedImg)]);
+    }
+  }
+
   public function updateDevice()
   {
     $data = file_get_contents('php://input');
@@ -49,6 +69,14 @@ class DeviceController
 
   public function deleteDevice()
   {
+    if (!empty($_GET['img'])) {
+      $imgs = explode(',', $_GET['img']);
+      $dest = ROOT_PATH . '\\assets\\devices\\';
+      foreach ($imgs as $img) {
+        unlink($dest . $img);
+      }
+    }
+
     Device::delete($_GET['id']);
   }
 }

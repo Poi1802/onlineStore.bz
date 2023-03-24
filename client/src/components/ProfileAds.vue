@@ -2,7 +2,11 @@
   <h2 class="text-3xl font-bold">Мои объявления</h2>
   <hr class="mt-6" />
   <div class="devices">
-    <Ads v-for="device in devicesStore.devices" :device="device" :key="device.id" />
+    <Ads
+      v-for="device in devicesStore.devices"
+      @clickDelete="update"
+      :device="device"
+      :key="device.id" />
   </div>
 </template>
 
@@ -21,6 +25,11 @@ export default {
   }),
   mounted() {
     this.devicesStore.getDevices(this.login.user.id);
+  },
+  methods: {
+    update(id) {
+      this.devicesStore.filterDevices(id);
+    },
   },
 };
 </script>

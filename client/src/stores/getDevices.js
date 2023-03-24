@@ -13,5 +13,9 @@ export const useGetDevicesStore = defineStore('getDevices', {
           this.devices = res.data;
         });
     },
+    filterDevices(id) {
+      this.devices = this.devices.filter((obj) => obj.id !== id);
+      console.log(this.devices);
+    },
   },
 });
