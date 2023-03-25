@@ -59,6 +59,15 @@ export const useFavoritesStore = defineStore('favorites', {
           (id) => id !== String(deviceId)
         );
 
+        if (this.favorites.device_ids.length === 0) {
+          axios
+            .delete(
+              `http://onlinestore.bz/server/favorite/delete?id=${this.favorites.id}`
+            )
+            .then((res) => console.log(res));
+          return;
+        }
+
         const updatedIds = {
           device_ids: this.favorites.device_ids.join(),
         };

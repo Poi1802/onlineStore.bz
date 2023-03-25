@@ -1,10 +1,29 @@
 <template>
-  <h2 class="text-3xl font-bold">Мои объявления</h2>
+  <h2 class="text-3xl font-bold">Избранное</h2>
   <hr class="mt-6" />
+  <div v-if="!deviceIds" class="mt-4 text-xl font-semibold italic">
+    Нет избранного, добавьте что-нибудь)
+  </div>
+  <FavoriteAds v-for="deviceId in deviceIds" :deviceId="deviceId" />
 </template>
 
 <script>
-export default {};
+import FavoriteAds from './FavoriteAds.vue';
+import { useFavoritesStore } from '../stores/favoritesStore';
+
+export default {
+  components: {
+    FavoriteAds,
+  },
+  data: () => ({
+    favoritesStore: useFavoritesStore(),
+  }),
+  computed: {
+    deviceIds() {
+      return this.favoritesStore.favorites.device_ids;
+    },
+  },
+};
 </script>
 
 <style lang="sass" scoped></style>

@@ -13,7 +13,9 @@
           <router-link to="/about">
             <li class="nav__list">О нас</li>
           </router-link>
-          <li class="nav__list favorite text-xl relative">
+          <li
+            @click="$router.push('/profile/favorites')"
+            class="nav__list favorite text-xl relative">
             <div
               v-if="countOfFavorites > 0"
               class="count absolute text-xs font-bold right-2 bottom-3">
@@ -21,7 +23,6 @@
             </div>
             <i class="fa-sharp fa-solid fa-heart"></i>
           </li>
-
           <li
             @click="$router.push('/profile/ads')"
             v-if="login.user"

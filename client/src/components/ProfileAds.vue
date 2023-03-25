@@ -27,7 +27,7 @@ export default {
     categoriesStore: useCategoriesStore(),
   }),
   mounted() {
-    this.devicesStore.getDevice(this.login.user.id);
+    this.devicesStore.getUserDevices(this.login.user.id);
     this.categoriesStore.getCategories();
   },
   methods: {
