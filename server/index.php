@@ -2,7 +2,7 @@
 require_once('./vendor/autoload.php');
 require_once('./headers.php');
 
-use controllers\{BrandController, UserController, CategoryController, ColorController, OrderController, TypeController, DeviceController, CartController};
+use controllers\{BrandController, UserController, CategoryController, ColorController, OrderController, TypeController, DeviceController, FavoriteController};
 use router\Route;
 
 // echo $_SERVER['REDIRECT_URL'] . ' ';
@@ -111,13 +111,13 @@ if ($contr[2] === 'type' || $contr[2] === 'types') {
 /**
  * Carts CRUD
  */
-if ($contr[2] === 'cart' || $contr[2] === 'carts') {
-  Route::get('/server/carts', [CartController::class, 'getCarts']);
-  Route::get('/server/cart', [CartController::class, 'getCart']);
+if ($contr[2] === 'favorite' || $contr[2] === 'favorites') {
+  Route::get('/server/favorites', [FavoriteController::class, 'getFavorites']);
+  Route::get('/server/favorite', [FavoriteController::class, 'getFavorite']);
 
-  Route::post('/server/cart/create', [CartController::class, 'createCart']);
+  Route::post('/server/favorite/create', [FavoriteController::class, 'createFavorite']);
 
-  Route::patch('/server/cart/update', [CartController::class, 'updateCart']);
+  Route::patch('/server/favorite/update', [FavoriteController::class, 'updateFavorite']);
 
-  Route::delete('/server/cart/delete', [CartController::class, 'deleteCart']);
+  Route::delete('/server/favorite/delete', [FavoriteController::class, 'deleteFavorite']);
 }

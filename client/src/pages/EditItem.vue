@@ -234,6 +234,10 @@ export default {
     clickDeleteImg(img) {
       this.images = this.images.filter((item) => item.name !== img);
       this.files = this.files.filter((item) => item.name !== img);
+      this.device.img = this.device.img
+        .split(',')
+        .filter((item) => item !== img)
+        .join(',');
     },
     handlerFile() {
       this.files.push(this.$refs.file.files[0]);
@@ -273,7 +277,7 @@ export default {
       if (Object.values(this.errors).length > 0) {
         return;
       }
-
+      console.log(this.files);
       let formData = new FormData();
       this.files.forEach((img, idx) => {
         console.log(idx);
@@ -289,17 +293,10 @@ export default {
         brand: this.brand,
         condit: this.condit,
         phone: this.phone,
+        img: this.device.img,
       };
 
       this.isLoading = true;
-      await axios
-        .post(
-          `http://onlinestore.bz/server/device/addImgToDevice?id=${this.$route.params.id}`,
-          formData
-        )
-        .then((res) => console.log(res))
-        .catch((err) => console.log(err));
-
       const res = await axios
         .patch(
           `http://onlinestore.bz/server/device/update?id=${this.$route.params.id}`,
@@ -308,6 +305,14 @@ export default {
         .then((res) => res.data)
         .catch((err) => console.log(err))
         .finally(() => (this.isLoading = false));
+
+      await axios
+        .post(
+          `http://onlinestore.bz/server/device/addImgToDevice?id=${this.$route.params.id}`,
+          formData
+        )
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
 
       if (res.status === true) {
         this.$router.push('/profile/ads');

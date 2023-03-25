@@ -16,7 +16,7 @@
         <hr />
         <ul class="group-lists">
           <MyProfileLink param="ads">Мои объявления</MyProfileLink>
-          <MyProfileLink param="favorite">Избранное</MyProfileLink>
+          <MyProfileLink param="favorites">Избранное</MyProfileLink>
         </ul>
         <hr />
         <ul class="group-lists">
@@ -31,6 +31,7 @@
     </div>
     <div class="content w-full ml-20 mt-10">
       <ProfileAds v-if="$route.params.list === 'ads'" />
+      <ProfileFavorites v-if="$route.params.list === 'favorites'" />
     </div>
   </div>
 </template>
@@ -38,10 +39,12 @@
 <script>
 import { useLoginStore } from '../stores/loginStore';
 import ProfileAds from '../components/ProfileAds.vue';
+import ProfileFavorites from '../components/ProfileFavorites.vue';
 
 export default {
   components: {
     ProfileAds,
+    ProfileFavorites,
   },
   data: () => ({
     login: useLoginStore(),

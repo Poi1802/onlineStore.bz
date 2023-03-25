@@ -1,7 +1,7 @@
 <template>
   <main class="mt-5">
     <div class="container">
-      <content class="block w-9/12">
+      <content class="block w-10/12">
         <div class="categories flex flex-wrap gap-2">
           <CategoryItem
             v-for="category in categoriesStore.categories"
@@ -10,7 +10,8 @@
             :img="category.img"
             :name="category.name" />
         </div>
-        <div class="devices flex gap-6">
+        <h2 class="text-4xl my-10 font-bold">Все Объявления</h2>
+        <div class="devices flex flex-wrap gap-4">
           <DeviceItem
             v-for="device in devicesStore.devices"
             :device="device"

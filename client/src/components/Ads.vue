@@ -1,6 +1,7 @@
 <template>
   <div class="device flex h-44 mt-10 gap-4 relative">
     <div
+      v-if="imagesArr?.length > 1"
       @click="prevImg"
       class="left-arrow h-full absolute w-20 left-1 cursor-pointer text-gray-400 hover:text-gray-600 duration-200">
       <i class="fa-solid fa-chevron-left text-3xl mt-20"></i>
@@ -17,6 +18,7 @@
       </div>
     </router-link>
     <div
+      v-if="imagesArr?.length > 1"
       @click="nextImg"
       class="left-arrow h-full absolute w-20 left-40 cursor-pointer text-gray-400 hover:text-gray-600 duration-200">
       <i class="fa-solid fa-chevron-right text-3xl mt-20 ml-12"></i>
@@ -30,7 +32,7 @@
       <div class="device price text-xl font-bold">{{ device.price }} ₽</div>
       <div class="divece-category">{{ category.name }}</div>
     </div>
-    <div class="device-manage ml-52">
+    <div class="device-manage ml-auto">
       <button
         @click="$router.push(`/editItem/${device.id}`)"
         class="edit block mb-4 bg-slate-200 py-1 px-8 rounded-lg hover:bg-slate-300 duration-200">

@@ -15,9 +15,9 @@
           </router-link>
           <li class="nav__list favorite text-xl relative">
             <div
-              v-if="count > 0"
-              class="count absolute text-xs font-bold right-1 bottom-1">
-              {{ count }}
+              v-if="countOfFavorites > 0"
+              class="count absolute text-xs font-bold right-2 bottom-3">
+              {{ countOfFavorites }}
             </div>
             <i class="fa-sharp fa-solid fa-heart"></i>
           </li>
@@ -65,6 +65,7 @@
 <script>
 import { useAuthStore } from '../stores/authStore.js';
 import { useLoginStore } from '../stores/loginStore';
+import { useFavoritesStore } from '../stores/favoritesStore';
 import AuthPopup from './AuthPopup.vue';
 
 export default {
@@ -72,13 +73,20 @@ export default {
     AuthPopup,
   },
   data: () => ({
-    count: 0,
     popup: false,
     auth: useAuthStore(),
     login: useLoginStore(),
+    favoritesStore: useFavoritesStore(),
   }),
   mounted() {
     this.login.user = JSON.parse(sessionStorage.getItem('user'));
+
+    this.favoritesStore.getFavorites(this.login.user.id);
+  },
+  computed: {
+    countOfFavorites() {
+      return this.favoritesStore.favorites.device_ids?.length;
+    },
   },
   methods: {
     clickOutside(e) {
