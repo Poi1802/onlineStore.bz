@@ -36,9 +36,28 @@ export const useFavoritesStore = defineStore('favorites', {
         }
       } else if (
         Object.keys(this.favorites).length !== 0 &&
-        !this.favorites.device_ids.includes(deviceId)
+        !this.favorites.device_ids.includes(String(deviceId))
       ) {
         this.favorites.device_ids.push(String(deviceId));
+
+        const updatedIds = {
+          device_ids: this.favorites.device_ids.join(),
+        };
+
+        try {
+          axios
+            .patch(
+              `http://onlinestore.bz/server/favorite/update?id=${this.favorites.id}`,
+              updatedIds
+            )
+            .then((res) => console.log(res));
+        } catch (error) {
+          console.log(error);
+        }
+      } else if (this.favorites.device_ids?.includes(String(deviceId))) {
+        this.favorites.device_ids = this.favorites.device_ids.filter(
+          (id) => id !== String(deviceId)
+        );
 
         const updatedIds = {
           device_ids: this.favorites.device_ids.join(),
