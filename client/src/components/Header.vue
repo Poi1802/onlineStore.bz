@@ -29,7 +29,7 @@
             class="nav__list user cursor-pointer">
             {{ login.user.name }}
             <i class="fa-solid fa-arrow-down duration-200"></i>
-            <ul class="user__options bg-neutral-900 text-slate-100 z-20">
+            <ul class="user__options bg-neutral-900 text-slate-100 z-10">
               <li
                 @click="$router.push('/profile/ads')"
                 class="cabinet p-1 hover:text-red-400 duration-200">
@@ -152,8 +152,14 @@ export default {
       width: max-content
       align-items: center
       gap: 10px
+
+  &:active
+    .user__options
+      z-index: 2
+
   .user__options
     position: absolute
+    z-index: 2
     top: 56px
     right: -14px
     padding: 10px

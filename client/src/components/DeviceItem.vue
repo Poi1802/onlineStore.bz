@@ -78,15 +78,18 @@ export default {
   },
   methods: {
     nextImg() {
-      if (this.activeImg !== this.imagesArr.length - 1) {
-        this.activeImg++;
+      if (this.activeImg === this.imagesArr.length - 1) {
+        this.activeImg = 0;
+        return;
       }
-      console.log(this.category.name);
+      this.activeImg++;
     },
     prevImg() {
-      if (this.activeImg !== 0) {
-        this.activeImg--;
+      if (this.activeImg === 0) {
+        this.activeImg = this.imagesArr.length - 1;
+        return;
       }
+      this.activeImg--;
     },
   },
 };
