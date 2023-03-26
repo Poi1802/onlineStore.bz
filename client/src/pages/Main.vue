@@ -15,7 +15,6 @@
           <DeviceItem
             v-for="device in devicesStore.devices"
             :device="device"
-            :categories="categoriesStore.categories"
             :key="device.id" />
         </div>
       </content>
@@ -38,14 +37,13 @@ export default {
     categoriesStore: useCategoriesStore(),
     devicesStore: useGetDevicesStore(),
   }),
-  created() {
+  mounted() {
     this.queryApi();
   },
   methods: {
     queryApi() {
-      this.categoriesStore.getCategories().then(() => {
-        this.devicesStore.getDevices();
-      });
+      this.devicesStore.getDevices();
+      this.categoriesStore.getCategories();
     },
   },
 };

@@ -49,6 +49,7 @@
 
 <script>
 import axios from 'axios';
+import { useCategoriesStore } from '../stores/categoriesStore';
 
 export default {
   props: {
@@ -58,7 +59,13 @@ export default {
   data: () => ({
     activeImg: 0,
     category: {},
+    categoriesStore: useCategoriesStore(),
   }),
+  mounted() {
+    this.categoriesStore
+      .getCategory(this.device.category_id)
+      .then((fetchCat) => (this.category = fetchCat));
+  },
   computed: {
     imagesArr() {
       return this.device.img?.split(',');

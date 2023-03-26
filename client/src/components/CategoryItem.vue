@@ -2,7 +2,7 @@
   <div
     @click="$router.push(`/category/${id}`)"
     class="category cursor-pointer bg-neutral-200 relative rounded-lg h-24 hover:bg-neutral-300 hover:shadow-lg duration-200">
-    <span class="title pt-2 px-4 block z-10">{{ name }}</span>
+    <span class="title pt-2 px-4 block">{{ name }}</span>
     <img class="cat__img absolute" :src="img" alt="" />
   </div>
 </template>

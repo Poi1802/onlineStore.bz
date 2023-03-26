@@ -29,7 +29,7 @@
             class="nav__list user cursor-pointer">
             {{ login.user.name }}
             <i class="fa-solid fa-arrow-down duration-200"></i>
-            <ul class="user__options bg-neutral-900 text-slate-100 z-10">
+            <ul class="user__options bg-neutral-900 text-slate-100 z-20">
               <li
                 @click="$router.push('/profile/ads')"
                 class="cabinet p-1 hover:text-red-400 duration-200">
@@ -82,7 +82,9 @@ export default {
   mounted() {
     this.login.user = JSON.parse(sessionStorage.getItem('user'));
 
-    this.favoritesStore.getFavorites(this.login.user.id);
+    if (this.login.user) {
+      this.favoritesStore.getFavorites(this.login.user.id);
+    }
   },
   computed: {
     countOfFavorites() {
@@ -117,8 +119,11 @@ export default {
     transform: translateY(2px)
 
 .favorite
+  &:hover
+    transform: scale(1.1)
+    transition: .3s cubic-bezier(0.5, 0, 0.5, 3)
   &:active
-    transform: scale(115%)
+    transform: scale(120%)
 .post
   background-color: #009CF0
   padding: 6px

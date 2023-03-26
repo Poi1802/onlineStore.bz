@@ -34,7 +34,7 @@
           </div>
         </router-link>
         <div class="device price font-bold">{{ device.price }} ₽</div>
-        <div class="divece-category">{{ category.name }}</div>
+        <div class="divece-category">{{ category?.name }}</div>
       </div>
       <div class="info-right ml-auto">
         <i
@@ -42,7 +42,8 @@
           :class="{
             'active text-red-500': inFavorite,
           }"
-          class="fa-regular fa-heart text-xl mt-1 mr-2 cursor-pointer hover:text-red-500 duration-200">
+          style="transition: 0.3s cubic-bezier(0.5, 0, 0.5, 3)"
+          class="fa-regular fa-heart text-xl mt-1 mr-2 cursor-pointer hover:text-red-500 hover:scale-110">
         </i>
       </div>
     </div>
@@ -51,21 +52,24 @@
 
 <script>
 import { useFavoritesStore } from '../stores/favoritesStore';
+import { useCategoriesStore } from '../stores/categoriesStore.js';
 
 export default {
   props: {
     device: Object,
-    categories: Array,
   },
   data: () => ({
     activeImg: 0,
     imagesArr: [],
     category: {},
+    categoriesStore: useCategoriesStore(),
     favoritesStore: useFavoritesStore(),
   }),
   mounted() {
     this.imagesArr = this.device.img?.split(',');
-    this.category = this.categories.find((cat) => cat.id === this.device.category_id);
+    this.categoriesStore
+      .getCategory(this.device.category_id)
+      .then((fetchCat) => (this.category = fetchCat));
   },
   computed: {
     inFavorite() {

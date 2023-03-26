@@ -11,7 +11,6 @@ export const useFavoritesStore = defineStore('favorites', {
       axios.get(`http://onlinestore.bz/server/favorite?user_id=${id}`).then((res) => {
         this.favorites = res.data;
         this.favorites.device_ids = this.favorites.device_ids.split(',');
-        console.log(this.favorites);
       });
     },
     addFavorites(deviceId) {
@@ -28,9 +27,16 @@ export const useFavoritesStore = defineStore('favorites', {
           formData.append('user_id', this.favorites.user_id);
           formData.append('device_ids', this.favorites.device_ids.join());
 
-          axios
-            .post('http://onlinestore.bz/server/favorite/create', formData)
-            .then((res) => console.log(res));
+          axios.post('http://onlinestore.bz/server/favorite/create', formData).then(() =>
+            axios
+              .get(
+                `http://onlinestore.bz/server/favorite?user_id=${this.favorites.user_id}`
+              )
+              .then((res) => {
+                this.favorites = res.data;
+                this.favorites.device_ids = this.favorites.device_ids.split(',');
+              })
+          );
         } catch (error) {
           console.log(error);
         }
@@ -59,15 +65,6 @@ export const useFavoritesStore = defineStore('favorites', {
           (id) => id !== String(deviceId)
         );
 
-        if (this.favorites.device_ids.length === 0) {
-          axios
-            .delete(
-              `http://onlinestore.bz/server/favorite/delete?id=${this.favorites.id}`
-            )
-            .then((res) => console.log(res));
-          return;
-        }
-
         const updatedIds = {
           device_ids: this.favorites.device_ids.join(),
         };
@@ -82,8 +79,19 @@ export const useFavoritesStore = defineStore('favorites', {
         } catch (error) {
           console.log(error);
         }
+
+        if (this.favorites.device_ids.length === 0) {
+          axios
+            .delete(
+              `http://onlinestore.bz/server/favorite/delete?id=${this.favorites.id}`
+            )
+            .then((res) => {
+              this.favorites = {};
+              console.log(res);
+            });
+          return;
+        }
       }
-      console.log(this.favorites);
     },
   },
 });

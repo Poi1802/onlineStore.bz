@@ -23,20 +23,34 @@
       class="left-arrow h-full absolute w-20 left-40 cursor-pointer text-gray-400 hover:text-gray-600 duration-200">
       <i class="fa-solid fa-chevron-right text-3xl mt-20 ml-12"></i>
     </div>
-    <div class="device-info">
+    <div class="device-info w-1/3">
       <router-link to="#">
         <div class="device-name text-2xl text-sky-500 hover:text-red-400">
           {{ device.name }}
         </div>
       </router-link>
       <div class="device price text-xl font-bold">{{ device.price }} ₽</div>
-      <div class="divece-category">123</div>
+      <div class="divece-category">{{ category.name }}</div>
+    </div>
+    <div class="info-right flex">
+      <div class="heart mx-auto">
+        <i
+          @click="favoritesStore.addFavorites(device.id)"
+          :class="{
+            'active text-red-500': inFavorite,
+          }"
+          style="transition: 0.3s cubic-bezier(0.5, 0, 0.5, 3)"
+          class="fa-regular fa-heart text-xl mt-1 mr-2 cursor-pointer hover:text-red-500 hover:scale-110">
+        </i>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { useGetDevicesStore } from '../stores/getDevices';
+import { useFavoritesStore } from '../stores/favoritesStore';
+import { useCategoriesStore } from '../stores/categoriesStore';
 
 export default {
   props: {
@@ -46,16 +60,27 @@ export default {
     devicesStore: useGetDevicesStore(),
     device: {},
     activeImg: 0,
+    category: {},
+    categoriesStore: useCategoriesStore(),
+    favoritesStore: useFavoritesStore(),
   }),
   computed: {
     imagesArr() {
       return this.device.img?.split(',');
+    },
+    inFavorite() {
+      return this.favoritesStore.favorites.device_ids?.includes(String(this.device.id));
     },
   },
   mounted() {
     console.log(this.deviceId);
     this.devicesStore.getDevice(this.deviceId).then(() => {
       this.device = this.devicesStore.devices[0];
+
+      this.categoriesStore
+        .getCategory(this.device.category_id)
+        .then((fetchCat) => (this.category = fetchCat));
+
       console.log(this.device);
     });
   },
@@ -77,6 +102,9 @@ export default {
 <style lang="sass" scoped>
 
 .device
+  .active
+    font-weight: 900
+
   &-link
     width: 230px
     height: 176px

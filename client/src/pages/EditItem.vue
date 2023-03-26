@@ -196,7 +196,6 @@ export default {
   }),
   async mounted() {
     this.catStore.getCategories();
-    console.log(Date.now());
     this.initialDevice();
   },
   methods: {
@@ -241,7 +240,6 @@ export default {
     },
     handlerFile() {
       this.files.push(this.$refs.file.files[0]);
-      console.log(this.files);
 
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -277,10 +275,8 @@ export default {
       if (Object.values(this.errors).length > 0) {
         return;
       }
-      console.log(this.files);
       let formData = new FormData();
       this.files.forEach((img, idx) => {
-        console.log(idx);
         formData.append(idx, img);
       });
       formData.append('img', this.device.img);

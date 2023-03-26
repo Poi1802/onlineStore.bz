@@ -78,7 +78,7 @@
               <img class="border max-w-full max-h-full" :src="img.src" alt="" />
               <div
                 @click="clickDeleteImg(img.name)"
-                class="delete absolute text-lg right-0 top-0">
+                class="delete absolute text-lg right-0 top-0 cursor-pointer">
                 <i class="fa-sharp fa-solid fa-circle-xmark"></i>
               </div>
             </div>

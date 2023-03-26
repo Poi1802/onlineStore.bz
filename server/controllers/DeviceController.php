@@ -41,10 +41,12 @@ class DeviceController
 
   public function addImgToDevice()
   {
+    print_r(isset($_POST['img']));
+    print_r(empty($_POST['img']));
     print_r(explode(',', $_POST['img']));
     print_r($_FILES);
     if (!empty($_FILES)) {
-      $uploadedImg = isset($_POST['img']) ? explode(',', $_POST['img']) : [];
+      $uploadedImg = !empty($_POST['img']) ? explode(',', $_POST['img']) : [];
 
       foreach ($_FILES as $file) {
         $img = time() . '_' . $file['name'];
