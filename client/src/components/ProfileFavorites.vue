@@ -17,11 +17,13 @@ export default {
   },
   data: () => ({
     favoritesStore: useFavoritesStore(),
+    deviceIds: [],
   }),
-  computed: {
-    deviceIds() {
-      return this.favoritesStore.favorites.device_ids;
-    },
+  mounted() {
+    this.favoritesStore.getFavorites().then(() => {
+      this.deviceIds = this.favoritesStore.favorites.device_ids;
+      console.log(this.favoritesStore.favorites.device_ids);
+    });
   },
 };
 </script>

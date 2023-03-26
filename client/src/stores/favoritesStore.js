@@ -7,11 +7,16 @@ export const useFavoritesStore = defineStore('favorites', {
     favorites: {},
   }),
   actions: {
-    getFavorites(id) {
-      axios.get(`http://onlinestore.bz/server/favorite?user_id=${id}`).then((res) => {
-        this.favorites = res.data;
-        this.favorites.device_ids = this.favorites.device_ids.split(',');
-      });
+    async getFavorites() {
+      const login = useLoginStore();
+
+      await axios
+        .get(`http://onlinestore.bz/server/favorite?user_id=${login.user.id}`)
+        .then((res) => {
+          this.favorites = res.data;
+          this.favorites.device_ids = this.favorites.device_ids.split(',');
+          console.log(this.favorites);
+        });
     },
     addFavorites(deviceId) {
       const login = useLoginStore();
@@ -92,6 +97,7 @@ export const useFavoritesStore = defineStore('favorites', {
           return;
         }
       }
+      console.log(this.favorites);
     },
   },
 });

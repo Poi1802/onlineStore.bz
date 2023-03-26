@@ -83,7 +83,7 @@ export default {
     this.login.user = JSON.parse(sessionStorage.getItem('user'));
 
     if (this.login.user) {
-      this.favoritesStore.getFavorites(this.login.user.id);
+      this.favoritesStore.getFavorites();
     }
   },
   computed: {
