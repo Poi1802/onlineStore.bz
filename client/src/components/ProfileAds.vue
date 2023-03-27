@@ -7,6 +7,9 @@
       @clickDelete="filterDevices"
       :device="device"
       :key="device.id" />
+    <div v-if="devicesStore.devices.length === 0" class="empty mt-4 text-2xl italic">
+      У вас нет объявлений :(
+    </div>
   </div>
 </template>
 

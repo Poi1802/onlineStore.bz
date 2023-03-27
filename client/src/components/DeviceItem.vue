@@ -5,15 +5,18 @@
       <div
         v-if="imagesArr?.length > 1"
         @click="prevImg"
-        class="left-arrow h-full absolute w-20 left-1 cursor-pointer text-gray-400 hover:text-gray-600 duration-200">
+        class="left-arrow h-full absolute w-10 left-1 cursor-pointer text-gray-400 hover:text-gray-600 duration-200">
         <i class="fa-solid fa-chevron-left text-3xl mt-20"></i>
       </div>
-      <router-link to="#" class="device-link m-auto flex">
+      <router-link
+        to=""
+        @click="$router.push(`/singleAds/${device.id}`)"
+        class="device-link m-auto flex">
         <div class="img-lists flex bg-slate-100">
           <div v-for="(img, idx) in imagesArr" class="img-list">
             <img
               :class="{ active: activeImg === idx }"
-              class="device-img min-w-full h-full"
+              class="device-img w-60 h-full"
               :src="`http://onlinestore.bz/assets/devices/${img}`"
               :alt="idx" />
           </div>
@@ -22,14 +25,16 @@
       <div
         v-if="imagesArr?.length > 1"
         @click="nextImg"
-        class="left-arrow h-full absolute w-20 top-0 left-40 cursor-pointer text-gray-400 hover:text-gray-600 duration-200">
-        <i class="fa-solid fa-chevron-right text-3xl mt-20 ml-12"></i>
+        class="left-arrow h-full absolute w-10 top-0 left-48 cursor-pointer text-gray-400 hover:text-gray-600 duration-200">
+        <i class="fa-solid fa-chevron-right text-3xl mt-20 ml-4"></i>
       </div>
     </div>
     <div class="device-info flex duration-300">
       <div class="info-left">
-        <router-link to="#">
-          <div class="device-name text-2xl text-sky-500 hover:text-red-400">
+        <router-link to="">
+          <div
+            @click="$router.push(`/singleAds/${device.id}`)"
+            class="device-name text-2xl text-sky-500 hover:text-red-400">
             {{ device.name }}
           </div>
         </router-link>

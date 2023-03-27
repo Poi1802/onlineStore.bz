@@ -1,7 +1,7 @@
 <template>
   <h2 class="text-3xl font-bold">Избранное</h2>
   <hr class="mt-6" />
-  <div v-if="!deviceIds" class="mt-4 text-xl font-semibold italic">
+  <div v-if="deviceIds.length === 0" class="mt-4 text-xl font-semibold italic">
     Нет избранного, добавьте что-нибудь)
   </div>
   <FavoriteAds v-for="deviceId in deviceIds" :deviceId="deviceId" />

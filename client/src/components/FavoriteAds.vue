@@ -6,7 +6,10 @@
       class="left-arrow h-full absolute w-20 left-1 cursor-pointer text-gray-400 hover:text-gray-600 duration-200">
       <i class="fa-solid fa-chevron-left text-3xl mt-20"></i>
     </div>
-    <router-link to="#" class="device-link w-60 flex">
+    <router-link
+      @click="$router.push(`/singleAds/${device.id}`)"
+      to="#"
+      class="device-link w-60 flex">
       <div class="img-lists flex bg-slate-100 w-full rounded-xl">
         <div v-for="(img, idx) in imagesArr" class="img-list">
           <img
@@ -24,7 +27,7 @@
       <i class="fa-solid fa-chevron-right text-3xl mt-20 ml-12"></i>
     </div>
     <div class="device-info w-1/3">
-      <router-link to="#">
+      <router-link @click="$router.push(`/singleAds/${device.id}`)" to="#">
         <div class="device-name text-2xl text-sky-500 hover:text-red-400">
           {{ device.name }}
         </div>

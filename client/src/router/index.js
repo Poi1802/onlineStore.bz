@@ -38,6 +38,11 @@ const router = createRouter({
       name: 'editItem',
       component: () => import('../pages/EditItem.vue'),
     },
+    {
+      path: '/singleAds/:id',
+      name: 'singleAds',
+      component: () => import('../pages/SingleAds.vue'),
+    },
   ],
 });
 

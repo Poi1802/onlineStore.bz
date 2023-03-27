@@ -32,6 +32,7 @@
     <div class="content w-full ml-20 mt-10">
       <ProfileAds v-if="$route.params.list === 'ads'" />
       <ProfileFavorites v-if="$route.params.list === 'favorites'" />
+      <div v-if="$route.params.list === 'settings'">Comming soon)))</div>
     </div>
   </div>
 </template>
